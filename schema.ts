@@ -1,11 +1,28 @@
-// Note, this schema is just for explaining the data structure.
-// I don't think this is necessarily the best way to store things in Firebase, for searchability reasons.
+// Notes:
+// - This is the main data schema, but does not capture analytics/user
+//   data/social features/etc.
+// - This schema is just for explaining the data structure. I don't think this
+//   is necessarily the best way to store things in Firebase, for searchability
+//   reasons.
 
 // e.g. Unit 1: scrambled eggs
 type Unit = {
   name: string;
   order: number;
   lessons: (KnowledgeLesson | RecognitionLesson) [];
+}
+
+type Lesson = {
+  name: string;
+  description: string;
+  icon: Icon;
+}
+
+// A lesson composed of multiple choice questions.
+type KnowledgeLesson = Lesson & {
+  questions: MultipleChoiceQuestion[];
+  // A summary of the lesson that will be shown at the end
+  summary: string;
 }
 
 // Most questions and answers will either be a text or some media.
@@ -25,19 +42,6 @@ type MultipleChoiceAnswer = {
   answer: Prompt;
   // This shows up as after selecting this choice
   flavor: string;
-}
-
-type Lesson = {
-  name: string;
-  description: string;
-  icon: Icon;
-}
-
-// A lesson composed of multiple choice questions.
-type KnowledgeLesson = Lesson & {
-  questions: MultipleChoiceQuestion[];
-  // A summary of the lesson that will be shown at the end
-  summary: string;
 }
 
 // A lesson with randomly generated questions.
