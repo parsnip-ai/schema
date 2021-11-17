@@ -4,6 +4,8 @@
 // - This schema is just for explaining the data structure. I don't think this
 //   is necessarily the best way to store things in Firebase, for searchability
 //   reasons.
+// - Lessons will probably have other types in the future. We should plan for
+//   experimentation there.
 
 // e.g. Unit 1: scrambled eggs
 type Unit = {
@@ -16,11 +18,14 @@ type Lesson = {
   name: string;
   description: string;
   icon: Icon;
+  published: boolean;
 }
 
 // A lesson composed of multiple choice questions.
 type KnowledgeLesson = Lesson & {
   questions: MultipleChoiceQuestion[];
+  // Whether these questions should be shown in a random order
+  randomize: boolean;
   // A summary of the lesson that will be shown at the end
   summary: string;
 }
@@ -38,6 +43,10 @@ type MultipleChoiceQuestion = {
 }
 
 type MultipleChoiceAnswer = {
+  // automatically generated to track answers
+  id: string;
+  // true if this is the correct answer
+  correct: boolean;
   // Answer can either be text or a picture
   answer: Prompt;
   // This shows up as after selecting this choice
